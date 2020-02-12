@@ -1,0 +1,2 @@
+include ':app', ':data', ':androidbase', ':cache', ':remote', ':feature_auth', ':firebase'
+rootProject.name='Tasked'

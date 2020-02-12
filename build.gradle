@@ -1,0 +1,45 @@
+import mobile.buildsrc.GradlePlugins
+import mobile.buildsrc.Libs
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript { 
+    ext.kotlin_version = '1.3.61'
+
+    ext.buildConfig = [
+            'compileSdk': 28,
+            'minSdk'    : 16,
+            'targetSdk' : 28
+    ]
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+
+    }
+    dependencies {
+        classpath GradlePlugins.androidGradlePlugin
+        classpath Libs.Kotlin.gradlePlugin
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta01'
+        classpath Libs.Google.gmsGoogleServices
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
+}
+
+plugins {
+    id 'com.github.ben-manes.versions' version "0.21.0"
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.google.com/' }
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
