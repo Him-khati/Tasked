@@ -4,21 +4,30 @@ import android.content.Intent
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.himanshu.tasked.androidbase.TaskState
+import com.himanshu.tasked.core.TaskState
+import com.himanshu.tasked.core.analytics.AnalyticsHelper
 import com.himanshu.tasked.data.sessionManagement.UserSessionManager
 import com.himanshu.tasked.feature.auth.R
+import com.himanshu.tasked.feature.auth.analytics.AuthAnalytics
+import com.himanshu.tasked.feature.auth.ui.AuthViewModel
+import com.vinners.core.logger.Logger
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val userSessionManager: UserSessionManager) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val userSessionManager: UserSessionManager,
+    private val logger: Logger,
+    private val analytics: AnalyticsHelper
+) : AuthViewModel(userSessionManager) {
 
     companion object {
-        private const val WEB_CLIENT_ID = "X"
+        private const val WEB_CLIENT_ID =
+            "1048743591386-a7o4olc8ucgtorf785jghjm90o6goklt.apps.googleusercontent.com"
     }
 
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -59,21 +68,12 @@ class LoginViewModel(private val userSessionManager: UserSessionManager) : ViewM
         _loginResult.value = TaskState.Loading
         viewModelScope.launch {
             try {
+
                 userSessionManager.loginWithEmailAndPassword(email, password)
                 _loginResult.postValue(TaskState.Success("Login Successful"))
             } catch (e: Exception) {
                 _loginResult.postValue(TaskState.Error(e.message!!))
             }
-        }
-    }
-
-    fun loginDataChanged(username: String, password: String) {
-        if (!isUserNameValid(username)) {
-            _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
-        } else if (!isPasswordValid(password)) {
-            _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
-        } else {
-            _loginForm.value = LoginFormState(isDataValid = true)
         }
     }
 
@@ -89,15 +89,34 @@ class LoginViewModel(private val userSessionManager: UserSessionManager) : ViewM
 
     fun handleGoogleSignInResult(data: Intent?) {
 
-        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        viewModelScope.launch {
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                userSessionManager.loginWithGoogle(account!!)
+
+                // Logging Event In Analytics
+                logInAnalytics()
+                _loginResult.postValue(TaskState.Success("Login Successful"))
+            } catch (e: ApiException) {
+                // Google Sign In failed
+                logger.e(e, "Google Login Failed")
+                _loginResult.postValue(TaskState.Error(e.localizedMessage))
+            } catch (e: Exception) {
+                // Some OOther Error
+                logger.e(e, "Error While Registering Google User With Firebase")
+                _loginResult.postValue(TaskState.Error(e.localizedMessage))
+            }
+        }
+    }
+
+    private fun logInAnalytics() {
         try {
-            // Google Sign In was successful, authenticate with Firebase
-            val account = task.getResult(ApiException::class.java)
-            // userSessionManager.loginWithGoogle(account!!)
-            //firebaseAuthWithGoogle(account!!)
-        } catch (e: ApiException) {
-            // Google Sign In failed, update UI appropriately
-            // ...
+            analytics.logEvent(AuthAnalytics.Events.LOGIN_GOOGLE_SUCCESS, null)
+        } catch (e: Exception) {
+            logger.e(e, "Unable to Log Event In Analytics")
         }
     }
 }

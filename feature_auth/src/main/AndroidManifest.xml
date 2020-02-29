@@ -4,8 +4,12 @@
 
     <application>
         <activity
+            android:name=".ui.AuthActivity"
+            android:label="@string/title_activity_auth" />
+        <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
     </application>
 
 </manifest>

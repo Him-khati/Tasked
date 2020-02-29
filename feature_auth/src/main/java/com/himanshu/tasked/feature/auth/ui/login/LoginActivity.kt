@@ -2,14 +2,14 @@ package com.himanshu.tasked.feature.auth.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.himanshu.tasked.androidbase.TaskState
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.himanshu.tasked.core.TaskState
 import com.himanshu.tasked.feature.auth.R
 
 class LoginActivity : AppCompatActivity() {
@@ -19,26 +19,48 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var analytics: FirebaseAnalytics
+
+    //Views
+    private lateinit var username: EditText
+    private lateinit var password: EditText
+
+    private lateinit var login: View
+    private lateinit var googleLoginBtn: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_login)
 
-        val username = findViewById<EditText>(R.id.dark)
-        val password = findViewById<EditText>(R.id.dark)
-        val login = findViewById<Button>(R.id.dark)
-        val loading = findViewById<ProgressBar>(R.id.dark)
+        initView()
+        iniViewModel()
+    }
 
+    private fun initView() {
+        username = findViewById(R.id.userNameET)
+        password = findViewById(R.id.passwordET)
+        login = findViewById(R.id.loginBtn)
+        googleLoginBtn = findViewById(R.id.googleLoginBtn)
+
+        googleLoginBtn.setOnClickListener {
+            loginViewModel.loginWithGoogle(this)
+        }
+
+        login.setOnClickListener {
+            loginViewModel.login(
+                username.text.toString()
+                , password.text.toString()
+            )
+        }
+    }
+
+    private fun iniViewModel() {
 
         loginViewModel =
-            ViewModelProvider(this, LoginViewModelFactory()).get(LoginViewModel::class.java)
+            ViewModelProvider(this, LoginViewModelFactory(this)).get(LoginViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
-
-            // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -68,13 +90,6 @@ class LoginActivity : AppCompatActivity() {
             Observer { signInIntent ->
                 startActivityForResult(signInIntent, RC_SIGN_IN)
             })
-
-        login.setOnClickListener {
-            loginViewModel.login(
-                username.text.toString()
-                , password.text.toString()
-            )
-        }
     }
 
     private fun showLoginFailed(errorString: String) {

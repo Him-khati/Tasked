@@ -1,16 +1,15 @@
 package com.himanshu.tasked.feature.auth.ui.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.himanshu.tasked.androidbase.TaskState
+import com.himanshu.tasked.core.TaskState
 import com.himanshu.tasked.data.models.LoggedInUser
 import com.himanshu.tasked.data.sessionManagement.UserSessionManager
 import com.himanshu.tasked.feature.auth.R
 import com.himanshu.tasked.feature.auth.ui.CoroutinesTestRule
-import com.nhaarman.mockitokotlin2.doThrow
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.himanshu.tasked.feature.auth.ui.TestLogger
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -19,6 +18,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import org.mockito.internal.stubbing.answers.AnswersWithDelay
+import org.mockito.internal.stubbing.answers.Returns
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -61,7 +62,8 @@ class LoginViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         this.viewModel = LoginViewModel(
-            this.userSessionManager
+            this.userSessionManager,
+            TestLogger()
         )
     }
 
@@ -88,28 +90,41 @@ class LoginViewModelTest {
     @Test
     fun test_loginWithEmailAndPasswordSuccess() = runBlocking {
 
-        whenever(
-            userSessionManager.loginWithEmailAndPassword(
+        doAnswer {
+            AnswersWithDelay(
+                1000,
+                Returns(
+                    LOGGED_IN_USER
+                )
+            )
+        }.whenever(userSessionManager)
+            .loginWithEmailAndPassword(
                 email = VALID_EMAIL,
                 password = VALID_PASSWORD
             )
-        ).thenReturn(LOGGED_IN_USER)
+
+        println(viewModel.loginResult.value)
 
         viewModel.login(
             email = VALID_EMAIL,
             password = VALID_PASSWORD
         )
 
-        // No validation Error
-        assert(viewModel.loginFormState.value == null)
-        print(viewModel.loginResult.value)
- //       assert(viewModel.loginResult.value == TaskState.Loading)
+        println(viewModel.loginResult.value)
 
         verify(userSessionManager, times(1))
             .loginWithEmailAndPassword(
                 email = VALID_EMAIL,
                 password = VALID_PASSWORD
             )
+
+        // No validation Error
+        assert(viewModel.loginFormState.value == null)
+        println(viewModel.loginResult.value)
+        assert(viewModel.loginResult.value == TaskState.Loading)
+
+
+        delay(150)
 
         assert(viewModel.loginResult.value is TaskState<String>)
         assert((viewModel.loginResult.value as TaskState.Success<String>).item.equals("Login Successful"))

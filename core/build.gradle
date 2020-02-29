@@ -1,0 +1,38 @@
+import mobile.buildsrc.Libs
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildToolVersion
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+    }
+
+    dataBinding {
+        enabled true
+    }
+}
+
+dependencies {
+    implementation project(':cache')
+    implementation project(':data')
+    implementation project(':remote')
+
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.AndroidX.appcompat
+    implementation Libs.Vinners.logger
+    implementation Libs.timber
+
+    implementation Libs.Firebase.firebaseCore
+    implementation Libs.Firebase.crashlytics
+    implementation Libs.Firebase.auth
+    implementation Libs.Firebase.firebaseAnalytics
+
+    implementation Libs.Dagger.dagger
+    kapt Libs.Dagger.compiler
+}

@@ -8,11 +8,11 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildToolVersion
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
@@ -20,6 +20,21 @@ android {
     }
     androidExtensions {
         experimental = true
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile rootProject.file("codeSigning/app-debug.jks")
+            storePassword "android"
+            keyAlias "CommonDevKeyStore"
+            keyPassword "android"
+        }
+
+        //Release Signing On Fastlane
     }
 
     buildTypes {
@@ -33,7 +48,7 @@ android {
             crunchPngs false
             manifestPlaceholders = [enableFirebaseMessaging: "true",
                                     enableFirebaseAnalytics: "false",
-                                    enableCrashReporting: "false"]
+                                    enableCrashReporting   : "false"]
             splits.abi.enable = false
             splits.density.enable = false
         }
@@ -42,7 +57,7 @@ android {
             minifyEnabled false
             manifestPlaceholders = [enableFirebaseMessaging: "true",
                                     enableFirebaseAnalytics: "true",
-                                    enableCrashReporting: "true"]
+                                    enableCrashReporting   : "true"]
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -85,7 +100,7 @@ android {
 }
 
 dependencies {
-    implementation project(':androidbase')
+    implementation project(':core')
     implementation project(':feature_auth')
     implementation project(':cache')
     implementation project(':data')
@@ -103,6 +118,9 @@ dependencies {
 
     debugImplementation Libs.leakCanary2
     debugImplementation Libs.Facebook.stetho
+
+    implementation Libs.Vinners.logger
+    implementation Libs.timber
 
     implementation Libs.Google.playRefer
     implementation Libs.Google.playCore
@@ -123,9 +141,7 @@ dependencies {
     implementation Libs.AndroidX.vectorDrawables
     implementation Libs.AndroidX.constraintlayout
 
-    implementation Libs.AndroidX.Navigation.navigationUi
     implementation Libs.AndroidX.Navigation.navigationUiKtx
-    implementation Libs.AndroidX.Navigation.navigationFragment
     implementation Libs.AndroidX.Navigation.navigationFragmentKtx
 
     implementation Libs.Coroutines.core
@@ -145,6 +161,9 @@ dependencies {
     implementation Libs.Firebase.inAppMessaging
     implementation Libs.Firebase.firebaseMessaging
     implementation Libs.Firebase.dynamicLinks
+    implementation Libs.Firebase.auth
+
+    implementation Libs.Google.auth
 
     kapt Libs.Dagger.androidProcessor
     kapt Libs.Dagger.compiler

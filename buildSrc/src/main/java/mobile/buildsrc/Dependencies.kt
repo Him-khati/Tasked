@@ -13,30 +13,37 @@ object Libs {
     val cameraIntegrator = "com.github.Him-khati:camera_intergrator:v0.2.0"
     val timber = "com.jakewharton.timber:timber:4.7.1"
     val junit = "junit:junit:4.12"
+
+    val mockitoCore = "org.mockito:mockito-inline:3.0.0"
     val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     val mockitoInline = "org.mockito:mockito-inline:3.0.0"
+
     val mpChart = "com.github.PhilJay:MPAndroidChart:v3.1.0"
     val circularImageView = "de.hdodenhof:circleimageview:3.0.0"
     val appIntro = "com.github.AppIntro:AppIntro:5.1.0"
     val zoomableImageView = "com.jsibbold:zoomage:1.3.0"
     val leakCanary2 = "com.squareup.leakcanary:leakcanary-android:2.0-beta-3"
 
+    object Vinners {
+        val logger = "com.github.vinnersafterwork:core:1.0"
+    }
+
     object Firebase {
 
-        val firebaseCore = "com.google.firebase:firebase-core:17.1.0"
-        val firebaseAnalytics = "com.google.firebase:firebase-analytics:17.2.1"
-        val firebaseMessaging = "com.google.firebase:firebase-messaging:20.0.0"
-        val dynamicLinks = "com.google.firebase:firebase-dynamic-links:19.0.0"
-        val inAppMessaging = "com.google.firebase:firebase-inappmessaging-display:19.0.0"
+        val firebaseCore = "com.google.firebase:firebase-core:17.2.2"
+        val firebaseAnalytics = "com.google.firebase:firebase-analytics:17.2.2"
+        val firebaseMessaging = "com.google.firebase:firebase-messaging:20.1.0"
+        val dynamicLinks = "com.google.firebase:firebase-dynamic-links:19.1.0"
+        val inAppMessaging = "com.google.firebase:firebase-inappmessaging-display:19.0.3"
         val crashlytics = "com.google.firebase:firebase-crashlytics:17.0.0-beta01"
-        val fabricPlugin = "io.fabric.tools:gradle:1.31.2"
+        val crashlyticsGradlePlugin = "com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta02"
         val auth = "com.google.firebase:firebase-auth:19.2.0"
     }
 
     object Google {
 
         val material = "com.google.android.material:material:1.2.0-alpha04"
-        val gmsGoogleServices = "com.google.gms:google-services:4.2.0"
+        val gmsGoogleServicesGradlePlugin = "com.google.gms:google-services:4.3.3"
         val placesLibrary = "com.google.android.libraries.places:places:1.0.0"
         val maps = "com.google.android.gms:play-services-maps:16.1.0"
 
@@ -75,7 +82,7 @@ object Libs {
         val vectorDrawables = "androidx.vectordrawable:vectordrawable:1.1.0"
         val preference = "androidx.preference:preference:1.1.0-alpha02"
         val constraintlayout = "androidx.constraintlayout:constraintlayout:1.1.3"
-        val coreKtx = "androidx.core:core-ktx:1.1.0"
+        val coreKtx = "androidx.core:core-ktx:1.2.0"
         val archCoreTesting = "androidx.arch.core:core-testing:2.0.0"
 
         object Test {

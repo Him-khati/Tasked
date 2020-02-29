@@ -3,7 +3,6 @@ package com.himanshu.tasked.data.sessionManagement
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.himanshu.tasked.data.Result
 import com.himanshu.tasked.data.mappers.LoggerInUserMapper
 import com.himanshu.tasked.data.models.LoggedInUser
 import kotlin.coroutines.resume
@@ -11,7 +10,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class UserSessionManager constructor(private val firebaseAuth: FirebaseAuth) {
-
 
     /**
      * Logs Out
@@ -66,13 +64,13 @@ class UserSessionManager constructor(private val firebaseAuth: FirebaseAuth) {
     }
 
 
-    suspend fun loginWithGoogle(googleSignInAccount: GoogleSignInAccount): Result<LoggedInUser> {
+    suspend fun loginWithGoogle(googleSignInAccount: GoogleSignInAccount): LoggedInUser {
         // handle Google login
         return firebaseAuthWithGoogle(googleSignInAccount)
     }
 
     private suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) =
-        suspendCoroutine<Result<LoggedInUser>> { continuation ->
+        suspendCoroutine<LoggedInUser> { continuation ->
 
             val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
             firebaseAuth.signInWithCredential(credential)
@@ -82,7 +80,7 @@ class UserSessionManager constructor(private val firebaseAuth: FirebaseAuth) {
                         continuation.resumeWithException(IllegalStateException("firebaseAuthWithGoogle: got null user"))
                     } else {
                         val loggedInUser = LoggerInUserMapper.toLoggerInUser(it.user!!)
-                        continuation.resume(Result.Success(loggedInUser))
+                        continuation.resume(loggedInUser)
                     }
                 }
                 .addOnFailureListener {
