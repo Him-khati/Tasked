@@ -41,7 +41,7 @@ class LoginViewModel @Inject constructor(
     private val _startGoogleSignInActivity = MutableLiveData<Intent>()
     val startGoogleSignInActivity: LiveData<Intent> = _startGoogleSignInActivity
 
-    fun loginWithGoogle(loginActivity: LoginActivity) {
+    fun loginWithGoogle(loginFragment: LoginFragment) {
 
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(WEB_CLIENT_ID)
@@ -49,7 +49,7 @@ class LoginViewModel @Inject constructor(
             .requestProfile()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(loginActivity, googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(loginFragment, googleSignInOptions)
         _startGoogleSignInActivity.value = googleSignInClient.signInIntent
     }
 

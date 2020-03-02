@@ -11,8 +11,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.google.firebase.FirebaseApp
-import com.himanshu.tasked.feature.auth.ui.login.LoginActivity
-import org.junit.Assert.assertEquals
+import com.himanshu.tasked.feature.auth.ui.login.LoginFragment
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,7 +24,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class LoginActivityInstrumentedTest {
+class LoginFragmentInstrumentedTest {
 
     companion object {
 
@@ -34,7 +33,7 @@ class LoginActivityInstrumentedTest {
     }
 
     @get:Rule
-    var activityRule: ActivityTestRule<LoginActivity> = ActivityTestRule(LoginActivity::class.java)
+    var fragmentRule: ActivityTestRule<LoginFragment> = ActivityTestRule(LoginFragment::class.java)
 
     @Before
     fun setUp() {

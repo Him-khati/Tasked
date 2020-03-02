@@ -17,15 +17,18 @@ abstract class CoreModule {
     @Module
     companion object {
 
+        @Singleton
         @Provides
         fun provideFirebaseAnalytics(context: Context): FirebaseAnalytics {
             return FirebaseAnalytics.getInstance(context)
         }
-    }
 
-    @Singleton
-    @Binds
-    abstract fun bindLogger(loggerImpl: LoggerImpl): Logger
+        @Singleton
+        @Provides
+        fun provideLogger(): Logger {
+            return LoggerImpl()
+        }
+    }
 
     @Singleton
     @Binds

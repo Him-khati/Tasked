@@ -2,11 +2,12 @@ package com.himanshu.tasked.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.himanshu.tasked.core.di.scopes.FeatureScope
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
-@Singleton
+@FeatureScope
 class ViewModelFactory
 @Inject constructor(private val creators: MutableMap<Class<out ViewModel>, Provider<ViewModel>>) : ViewModelProvider.Factory {
 

@@ -22,7 +22,7 @@ class LoginViewModelFactory constructor(private val context : Context): ViewMode
 
             val firebaseApp = FirebaseApp.getInstance()
             return LoginViewModel(
-                userSessionManager = UserSessionManager(FirebaseAuth.getInstance(firebaseApp)),
+                userSessionManager = UserSessionManager(FirebaseAuth.getInstance()),
                 logger = LoggerImpl(),
                 analytics = AnalyticsHelperImpl(FirebaseAnalytics.getInstance(context))
             ) as T

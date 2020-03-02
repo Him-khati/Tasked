@@ -17,6 +17,7 @@ class ForgotPasswordFragment :
             .builder()
             .coreComponent(coreComponent)
             .build()
+            .inject(this)
     }
 
     override fun onInitDataBinding() {

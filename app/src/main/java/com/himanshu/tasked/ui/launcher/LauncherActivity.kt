@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.himanshu.tasked.feature.auth.ui.login.LoginActivity
+import com.himanshu.tasked.feature.auth.ui.login.LoginFragment
 
 class LauncherActivity : AppCompatActivity() {
 
@@ -28,7 +28,7 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun startLoginActivity() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, LoginFragment::class.java))
         finish()
     }
 
