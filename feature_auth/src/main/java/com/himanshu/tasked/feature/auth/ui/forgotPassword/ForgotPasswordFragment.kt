@@ -5,6 +5,7 @@ import com.himanshu.tasked.core.base.CoreApplication
 import com.himanshu.tasked.feature.auth.R
 import com.himanshu.tasked.feature.auth.databinding.FragmentForgotPasswordBinding
 import com.himanshu.tasked.feature.auth.di.DaggerAuthComponent
+import com.himanshu.tasked.feature.auth.di.ForgotPasswordModule
 
 class ForgotPasswordFragment :
     BaseFragment<FragmentForgotPasswordBinding, ForgotPasswordViewModel>(R.layout.fragment_forgot_password) {
@@ -16,6 +17,7 @@ class ForgotPasswordFragment :
         DaggerAuthComponent
             .builder()
             .coreComponent(coreComponent)
+            .forgotPasswordModule(ForgotPasswordModule(this))
             .build()
             .inject(this)
     }

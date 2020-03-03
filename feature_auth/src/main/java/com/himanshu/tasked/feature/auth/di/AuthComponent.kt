@@ -10,8 +10,11 @@ import dagger.Component
 
 @FeatureScope
 @Component(
-    modules = [AuthModule::class]
-    , dependencies = [CoreComponent::class]
+    modules = [
+        LoginModule::class,
+        ForgotPasswordModule::class
+    ],
+    dependencies = [CoreComponent::class]
 )
 interface AuthComponent {
 

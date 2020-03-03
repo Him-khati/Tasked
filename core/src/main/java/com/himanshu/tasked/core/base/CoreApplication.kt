@@ -38,6 +38,6 @@ open class CoreApplication constructor(
     }
 
     private fun initLogger() {
-        logger.init(appInfo.isDebugBuild)
+        // logger.init(appInfo.isDebugBuild)
     }
 }

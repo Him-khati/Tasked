@@ -21,4 +21,5 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>(R.layout.activity_auth) {
     override fun onInitDataBinding() {
         viewBinding.lifecycleOwner = this
     }
+
 }

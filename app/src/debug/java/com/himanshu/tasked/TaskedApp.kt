@@ -1,5 +1,6 @@
 package com.himanshu.tasked
 
+import androidx.multidex.MultiDex
 import com.facebook.stetho.Stetho
 import com.himanshu.tasked.core.base.AppInfo
 import com.himanshu.tasked.core.base.CoreApplication
@@ -14,6 +15,7 @@ class TaskedApp : CoreApplication(
 
     override fun onCreate() {
         super.onCreate()
+        MultiDex.install(this)
         Stetho.initializeWithDefaults(this)
     }
 }

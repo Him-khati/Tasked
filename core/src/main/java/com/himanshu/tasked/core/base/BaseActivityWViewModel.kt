@@ -44,6 +44,7 @@ abstract class BaseActivityWViewModel<B : ViewDataBinding, M : ViewModel>(
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onInitDependencyInjection()
         viewBinding = DataBindingUtil.setContentView(this, layoutId)
         viewBinding.lifecycleOwner = this
         onInitDataBinding()
@@ -58,6 +59,6 @@ abstract class BaseActivityWViewModel<B : ViewDataBinding, M : ViewModel>(
      */
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        onInitDependencyInjection()
+
     }
 }

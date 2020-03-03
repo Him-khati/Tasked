@@ -1,23 +1,30 @@
 package com.himanshu.tasked.ui.launcher
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.himanshu.tasked.feature.auth.ui.login.LoginFragment
+import com.himanshu.tasked.R
+import com.himanshu.tasked.core.base.BaseActivityWViewModel
+import com.himanshu.tasked.core.base.CoreApplication
+import com.himanshu.tasked.databinding.ActivityLauncherBinding
+import com.himanshu.tasked.feature.auth.ui.AuthActivity
+import com.himanshu.tasked.ui.di.DaggerLauncherComponent
+import com.himanshu.tasked.ui.di.LauncherModule
 
-class LauncherActivity : AppCompatActivity() {
+class LauncherActivity :
+    BaseActivityWViewModel<ActivityLauncherBinding, LauncherViewModel>(R.layout.activity_launcher) {
 
-    private lateinit var launcherViewModel: LauncherViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initViewModel()
+    override fun onInitDependencyInjection() {
+        val coreComponent = (application as CoreApplication).initOrGetCoreDependency()
+        DaggerLauncherComponent
+            .builder()
+            .coreComponent(coreComponent)
+            .launcherModule(LauncherModule(this))
+            .build()
+            .inject(this)
     }
 
-    private fun initViewModel() {
-        launcherViewModel
-            .checkLoginState
+    override fun onInitDataBinding() {
+        viewModel.checkLoginState
             .observe(this, Observer {
 
                 when (it) {
@@ -25,14 +32,16 @@ class LauncherActivity : AppCompatActivity() {
                     LoginResult.NOT_LOGGED_IN -> startLoginActivity()
                 }
             })
-    }
 
-    private fun startLoginActivity() {
-        startActivity(Intent(this, LoginFragment::class.java))
-        finish()
+        viewModel.checkPreviousLogin()
     }
 
     private fun startMainActivity() {
 
+    }
+
+    private fun startLoginActivity() {
+        startActivity(Intent(this, AuthActivity::class.java))
+        finish()
     }
 }

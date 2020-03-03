@@ -19,18 +19,18 @@ abstract class CoreModule {
 
         @Singleton
         @Provides
+        @JvmStatic
         fun provideFirebaseAnalytics(context: Context): FirebaseAnalytics {
             return FirebaseAnalytics.getInstance(context)
-        }
-
-        @Singleton
-        @Provides
-        fun provideLogger(): Logger {
-            return LoggerImpl()
         }
     }
 
     @Singleton
     @Binds
     abstract fun bindAnalyticsHelper(analyticsHelperImpl: AnalyticsHelperImpl): AnalyticsHelper
+
+    @Singleton
+    @Binds
+    abstract fun bindLogger(loggerImpl: LoggerImpl): Logger
+
 }

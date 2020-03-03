@@ -11,7 +11,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.google.firebase.FirebaseApp
-import com.himanshu.tasked.feature.auth.ui.login.LoginFragment
+import com.himanshu.tasked.feature.auth.ui.AuthActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,7 +33,15 @@ class LoginFragmentInstrumentedTest {
     }
 
     @get:Rule
-    var fragmentRule: ActivityTestRule<LoginFragment> = ActivityTestRule(LoginFragment::class.java)
+    var fragmentRule: ActivityTestRule<AuthActivity> =
+        object : ActivityTestRule<AuthActivity>(AuthActivity::class.java) {
+
+            override fun beforeActivityLaunched() {
+                super.beforeActivityLaunched()
+                val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+                FirebaseApp.initializeApp(appContext)
+            }
+        }
 
     @Before
     fun setUp() {
@@ -41,7 +49,7 @@ class LoginFragmentInstrumentedTest {
         FirebaseApp.initializeApp(appContext)
     }
 
-    private fun getResourceString(@StringRes id : Int) : String{
+    private fun getResourceString(@StringRes id: Int): String {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         return appContext.getString(id)
     }

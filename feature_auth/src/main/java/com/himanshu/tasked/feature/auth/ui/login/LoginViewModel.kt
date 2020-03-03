@@ -1,5 +1,6 @@
 package com.himanshu.tasked.feature.auth.ui.login
 
+import android.content.Context
 import android.content.Intent
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.LiveData
@@ -41,7 +42,7 @@ class LoginViewModel @Inject constructor(
     private val _startGoogleSignInActivity = MutableLiveData<Intent>()
     val startGoogleSignInActivity: LiveData<Intent> = _startGoogleSignInActivity
 
-    fun loginWithGoogle(loginFragment: LoginFragment) {
+    fun loginWithGoogle(context: Context) {
 
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(WEB_CLIENT_ID)
@@ -49,7 +50,7 @@ class LoginViewModel @Inject constructor(
             .requestProfile()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(loginFragment, googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
         _startGoogleSignInActivity.value = googleSignInClient.signInIntent
     }
 

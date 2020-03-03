@@ -3,18 +3,15 @@ package com.himanshu.tasked.feature.auth.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.himanshu.tasked.core.TaskState
 import com.himanshu.tasked.core.base.BaseFragment
 import com.himanshu.tasked.core.base.CoreApplication
 import com.himanshu.tasked.feature.auth.R
 import com.himanshu.tasked.feature.auth.databinding.FragmentLoginBinding
 import com.himanshu.tasked.feature.auth.di.DaggerAuthComponent
+import com.himanshu.tasked.feature.auth.di.LoginModule
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layout.fragment_login) {
 
@@ -28,13 +25,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         DaggerAuthComponent
             .builder()
             .coreComponent(coreComponent)
+            .loginModule(LoginModule(this))
             .build()
             .inject(this)
     }
 
     override fun onInitDataBinding() {
         viewBinding.googleLoginBtn.setOnClickListener {
-            viewModel.loginWithGoogle(this)
+            viewModel.loginWithGoogle(requireContext())
         }
 
         viewBinding.loginBtn.setOnClickListener {
@@ -93,7 +91,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         Toast.makeText(requireContext(), errorString, Toast.LENGTH_SHORT).show()
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
