@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.login
+package com.himanshu.tasked.feature.auth.ui.login
 
 /**
  * Data validation state of the login form.

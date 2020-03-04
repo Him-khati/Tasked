@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.login
+package com.himanshu.tasked.feature.auth.ui.login
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.himanshu.tasked.core.TaskState
 import com.himanshu.tasked.core.analytics.AnalyticsHelper
+import com.himanshu.tasked.core.di.scopes.FeatureScope
 import com.himanshu.tasked.data.sessionManagement.UserSessionManager
 import com.himanshu.tasked.feature.auth.R
 import com.himanshu.tasked.feature.auth.analytics.AuthAnalytics

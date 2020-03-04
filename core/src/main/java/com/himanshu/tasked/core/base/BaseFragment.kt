@@ -11,15 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import javax.inject.Inject
 
 abstract class BaseFragment<B : ViewDataBinding, M : ViewModel>(
     @LayoutRes
     private val layoutId: Int
 ) : Fragment() {
 
-    @Inject
-    lateinit var viewModel: M
+    protected lateinit var viewModel: M
+
     lateinit var viewBinding: B
 
     /**
@@ -31,6 +30,12 @@ abstract class BaseFragment<B : ViewDataBinding, M : ViewModel>(
      * Called to Initialize view data binding variables when fragment view is created.
      */
     abstract fun onInitDataBinding()
+
+    /**
+     * called To Initialize ViewModel
+     */
+    abstract fun onInitViewModel()
+
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -79,6 +84,7 @@ abstract class BaseFragment<B : ViewDataBinding, M : ViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onInitDataBinding()
+        onInitViewModel()
     }
 
     /**

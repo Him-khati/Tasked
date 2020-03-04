@@ -1,6 +1,7 @@
 package com.himanshu.tasked.core.di.modules
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.himanshu.tasked.core.analytics.AnalyticsHelper
 import com.himanshu.tasked.core.analytics.AnalyticsHelperImpl
@@ -32,5 +33,6 @@ abstract class CoreModule {
     @Singleton
     @Binds
     abstract fun bindLogger(loggerImpl: LoggerImpl): Logger
+
 
 }

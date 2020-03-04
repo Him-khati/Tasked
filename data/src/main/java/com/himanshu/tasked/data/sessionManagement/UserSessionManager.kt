@@ -65,6 +65,23 @@ class UserSessionManager @Inject constructor(private val firebaseAuth: FirebaseA
     }
 
 
+    /**
+     * Login With Email Password
+     */
+    suspend fun sendPasswordResetLink(
+        email: String
+    ) = suspendCoroutine<Any> { continuation ->
+
+        firebaseAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+                continuation.resume("Reset Link Sent")
+            }
+            .addOnFailureListener {
+                continuation.resumeWithException(it)
+            }
+    }
+
+
     suspend fun loginWithGoogle(googleSignInAccount: GoogleSignInAccount): LoggedInUser {
         // handle Google login
         return firebaseAuthWithGoogle(googleSignInAccount)

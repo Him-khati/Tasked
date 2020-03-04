@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.login
+package com.himanshu.tasked.feature.auth.ui.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.himanshu.tasked.core.TaskState

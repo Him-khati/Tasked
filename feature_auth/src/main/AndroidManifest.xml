@@ -7,7 +7,7 @@
             android:name=".ui.AuthActivity"
             android:label="@string/title_activity_auth" />
         <activity
-            android:name="com.himanshu.tasked.feature.auth.login.LoginFragment"
+            android:name="com.himanshu.tasked.feature.auth.ui.login.LoginFragment"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.MaterialComponents.NoActionBar" />
     </application>

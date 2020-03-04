@@ -1,19 +1,24 @@
-package com.himanshu.tasked.feature.auth.login
+package com.himanshu.tasked.feature.auth.ui.login
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.himanshu.tasked.core.TaskState
 import com.himanshu.tasked.core.base.BaseFragment
 import com.himanshu.tasked.core.base.CoreApplication
 import com.himanshu.tasked.feature.auth.R
 import com.himanshu.tasked.feature.auth.databinding.FragmentLoginBinding
-import com.himanshu.tasked.feature.auth.login.di.DaggerLoginComponent
-import com.himanshu.tasked.feature.auth.login.di.LoginModule
+import com.himanshu.tasked.feature.auth.di.AuthViewModelFactory
+import com.himanshu.tasked.feature.auth.di.DaggerAuthComponent
+import javax.inject.Inject
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layout.fragment_login) {
+
+    @Inject
+    lateinit var viewModelFactory: AuthViewModelFactory
 
     companion object {
         const val RC_SIGN_IN = 102
@@ -23,14 +28,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         val coreComponent = (requireCompatActivity().application as CoreApplication)
             .initOrGetCoreDependency()
 
-        DaggerLoginComponent
+        DaggerAuthComponent
             .builder()
             .coreComponent(coreComponent)
-            .loginModule(
-                LoginModule(
-                    this
-                )
-            )
             .build()
             .inject(this)
     }
@@ -40,6 +40,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             viewModel.loginWithGoogle(requireContext())
         }
 
+        viewBinding.userNameET.doOnTextChanged { _, _, _, _ ->
+            viewBinding.userNameInputLayout.error = null
+        }
+
+        viewBinding.passwordET.doOnTextChanged { _, _, _, _ ->
+            viewBinding.passwordInputLayout.error = null
+        }
+
+        viewBinding.forgotPasswordBtn.setOnClickListener (
+            Navigation.createNavigateOnClickListener(R.id.open_forgot_password_action, null)
+        )
+
         viewBinding.loginBtn.setOnClickListener {
             viewModel.login(
                 viewBinding.userNameET.text.toString(),
@@ -48,12 +60,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        iniViewModel()
-    }
-
-    private fun iniViewModel() {
+    override fun onInitViewModel() {
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
         viewModel.loginFormState.observe(
             viewLifecycleOwner,
@@ -104,7 +112,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             viewModel.handleGoogleSignInResult(data)
         }
     }
-
 }
 
 
