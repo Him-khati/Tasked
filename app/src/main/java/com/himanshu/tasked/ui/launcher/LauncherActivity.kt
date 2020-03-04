@@ -1,19 +1,27 @@
 package com.himanshu.tasked.ui.launcher
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.himanshu.tasked.R
-import com.himanshu.tasked.core.base.BaseActivityWViewModel
 import com.himanshu.tasked.core.base.CoreApplication
-import com.himanshu.tasked.databinding.ActivityLauncherBinding
 import com.himanshu.tasked.feature.auth.ui.AuthActivity
 import com.himanshu.tasked.ui.di.DaggerLauncherComponent
 import com.himanshu.tasked.ui.di.LauncherModule
+import javax.inject.Inject
 
-class LauncherActivity :
-    BaseActivityWViewModel<ActivityLauncherBinding, LauncherViewModel>(R.layout.activity_launcher) {
+class LauncherActivity : AppCompatActivity() {
 
-    override fun onInitDependencyInjection() {
+    @Inject
+    lateinit var viewModel: LauncherViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onInitDependencyInjection()
+        onInitViewModel()
+    }
+
+    private fun onInitDependencyInjection() {
         val coreComponent = (application as CoreApplication).initOrGetCoreDependency()
         DaggerLauncherComponent
             .builder()
@@ -23,10 +31,9 @@ class LauncherActivity :
             .inject(this)
     }
 
-    override fun onInitDataBinding() {
+    private fun onInitViewModel() {
         viewModel.checkLoginState
             .observe(this, Observer {
-
                 when (it) {
                     LoginResult.LOGGED_IN -> startMainActivity()
                     LoginResult.NOT_LOGGED_IN -> startLoginActivity()

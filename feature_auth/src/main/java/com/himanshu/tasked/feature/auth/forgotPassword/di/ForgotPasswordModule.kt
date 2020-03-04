@@ -1,28 +1,28 @@
-package com.himanshu.tasked.feature.auth.di
+package com.himanshu.tasked.feature.auth.forgotPassword.di
 
 import com.himanshu.tasked.core.analytics.AnalyticsHelper
 import com.himanshu.tasked.core.di.scopes.FeatureScope
 import com.himanshu.tasked.core.extensions.viewModel
 import com.himanshu.tasked.data.sessionManagement.UserSessionManager
-import com.himanshu.tasked.feature.auth.ui.login.LoginFragment
-import com.himanshu.tasked.feature.auth.ui.login.LoginViewModel
+import com.himanshu.tasked.feature.auth.forgotPassword.ForgotPasswordFragment
+import com.himanshu.tasked.feature.auth.forgotPassword.ForgotPasswordViewModel
 import com.vinners.core.logger.Logger
 import dagger.Module
 import dagger.Provides
 
 @Module
-class LoginModule(
-    val fragment: LoginFragment
+class ForgotPasswordModule(
+    val fragment: ForgotPasswordFragment
 ) {
 
     @Provides
     @FeatureScope
-    fun providesLoginViewModel(
+    fun providesForgotPasswordViewModel(
         userSessionManager: UserSessionManager,
         logger: Logger,
         analytics: AnalyticsHelper
     ) = fragment.viewModel {
-        LoginViewModel(
+        ForgotPasswordViewModel(
             userSessionManager = userSessionManager,
             logger = logger,
             analytics = analytics

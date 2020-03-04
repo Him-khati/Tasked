@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.ui.login
+package com.himanshu.tasked.feature.auth.login
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.ui.register
+package com.himanshu.tasked.feature.auth.register
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

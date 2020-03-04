@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.ui.login
+package com.himanshu.tasked.feature.auth.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +10,8 @@ import com.himanshu.tasked.core.base.BaseFragment
 import com.himanshu.tasked.core.base.CoreApplication
 import com.himanshu.tasked.feature.auth.R
 import com.himanshu.tasked.feature.auth.databinding.FragmentLoginBinding
-import com.himanshu.tasked.feature.auth.di.DaggerAuthComponent
-import com.himanshu.tasked.feature.auth.di.LoginModule
+import com.himanshu.tasked.feature.auth.login.di.DaggerLoginComponent
+import com.himanshu.tasked.feature.auth.login.di.LoginModule
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layout.fragment_login) {
 
@@ -22,10 +22,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     override fun onInitDependencyInjection() {
         val coreComponent = (requireCompatActivity().application as CoreApplication)
             .initOrGetCoreDependency()
-        DaggerAuthComponent
+
+        DaggerLoginComponent
             .builder()
             .coreComponent(coreComponent)
-            .loginModule(LoginModule(this))
+            .loginModule(
+                LoginModule(
+                    this
+                )
+            )
             .build()
             .inject(this)
     }

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.himanshu.tasked.feature.auth.ui.login.LoginFragment"
+        android:name="com.himanshu.tasked.feature.auth.login.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.himanshu.tasked.feature.auth.ui.forgotPassword.ForgotPasswordFragment"
+        android:name="com.himanshu.tasked.feature.auth.forgotPassword.ForgotPasswordFragment"
         android:label="Forgot Password"
         tools:layout="@layout/fragment_forgot_password" />
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.himanshu.tasked.feature.auth.ui.register.RegisterFragment"
+        android:name="com.himanshu.tasked.feature.auth.register.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register" />
 

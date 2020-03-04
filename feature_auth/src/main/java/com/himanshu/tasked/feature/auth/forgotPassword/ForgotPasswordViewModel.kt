@@ -1,4 +1,4 @@
-package com.himanshu.tasked.feature.auth.ui.forgotPassword
+package com.himanshu.tasked.feature.auth.forgotPassword
 
 import androidx.lifecycle.ViewModel
 import com.himanshu.tasked.core.analytics.AnalyticsHelper
