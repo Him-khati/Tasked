@@ -31,8 +31,6 @@ dependencies {
     implementation project(path: ':data')
     implementation project(path: ':core')
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation Libs.junit
     testImplementation Libs.mockitoInline
     testImplementation Libs.mockitoKotlin
@@ -46,12 +44,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     implementation Libs.AirBnb.lottie
+    implementation Libs.progressButton
 
     implementation Libs.Kotlin.stdlib
     implementation Libs.AndroidX.appcompat
     implementation Libs.AndroidX.coreKtx
     implementation Libs.AndroidX.Lifecycle.lifeCyleViewModel
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
     implementation Libs.AndroidX.Navigation.navigationUiKtx
     implementation Libs.AndroidX.Navigation.navigationFragmentKtx
 

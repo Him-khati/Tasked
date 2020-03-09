@@ -14,6 +14,8 @@ object Libs {
     val timber = "com.jakewharton.timber:timber:4.7.1"
     val junit = "junit:junit:4.12"
 
+    val progressButton = "com.github.razir.progressbutton:progressbutton:2.0.0"
+
     val mockitoCore = "org.mockito:mockito-inline:3.0.0"
     val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     val mockitoInline = "org.mockito:mockito-inline:3.0.0"
@@ -111,7 +113,8 @@ object Libs {
             private const val version = "2.2.0"
             val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
             val compiler = "androidx.lifecycle:lifecycle-compiler:$version"
-            val lifeCyleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-alpha02"
+            val lifeCyleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+            val lifeCycle = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
         }
 
         object Room {
