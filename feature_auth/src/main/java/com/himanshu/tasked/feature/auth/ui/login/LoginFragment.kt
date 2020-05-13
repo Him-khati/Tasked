@@ -48,8 +48,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             viewBinding.passwordInputLayout.error = null
         }
 
-        viewBinding.forgotPasswordBtn.setOnClickListener (
+        viewBinding.forgotPasswordBtn.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.open_forgot_password_action, null)
+        )
+
+        viewBinding.registerBtn.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.open_register_fragment_action, null)
         )
 
         viewBinding.loginBtn.setOnClickListener {

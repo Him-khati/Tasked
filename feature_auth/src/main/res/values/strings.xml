@@ -15,4 +15,11 @@
     <string name="email_all_caps">EMAIL</string>
     <string name="password_all_caps">PASSWORD</string>
     <string name="email_sent_success_message">We\'ve Sent You A Reset Password Link On Your Registered Email Address</string>
+    <string name="submit">Submit</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="re_enter_password">Re-Enter Password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
 </resources>

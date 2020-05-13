@@ -39,6 +39,8 @@ class ForgotPasswordFragment :
             .sendResetLinkTaskState
             .observe(this, Observer {
 
+
+
             })
     }
 }

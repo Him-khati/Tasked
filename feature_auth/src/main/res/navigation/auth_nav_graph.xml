@@ -19,6 +19,14 @@
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit" />
 
+        <action
+            android:id="@+id/open_register_fragment_action"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+
     </fragment>
 
     <fragment
@@ -31,6 +39,9 @@
         android:id="@+id/registerFragment"
         android:name="com.himanshu.tasked.feature.auth.ui.register.RegisterFragment"
         android:label="Register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register">
+
+
+    </fragment>
 
 </navigation>

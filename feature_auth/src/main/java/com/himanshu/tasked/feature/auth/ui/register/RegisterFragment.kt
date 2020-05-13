@@ -1,33 +1,36 @@
 package com.himanshu.tasked.feature.auth.ui.register
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-
+import com.himanshu.tasked.core.base.BaseFragment
+import com.himanshu.tasked.core.base.CoreApplication
 import com.himanshu.tasked.feature.auth.R
+import com.himanshu.tasked.feature.auth.databinding.FragmentRegisterBinding
+import com.himanshu.tasked.feature.auth.di.AuthViewModelFactory
+import com.himanshu.tasked.feature.auth.di.DaggerAuthComponent
+import javax.inject.Inject
 
-class RegisterFragment : Fragment() {
+class RegisterFragment :
+    BaseFragment<FragmentRegisterBinding, RegisterViewModel>(R.layout.fragment_register) {
 
-    companion object {
-        fun newInstance() = RegisterFragment()
+    @Inject
+    lateinit var viewModelFactory: AuthViewModelFactory
+
+    override fun onInitDependencyInjection() {
+        val coreComponent = (requireCompatActivity().application as CoreApplication)
+            .initOrGetCoreDependency()
+
+        DaggerAuthComponent
+            .builder()
+            .coreComponent(coreComponent)
+            .build()
+            .inject(this)
     }
 
-    private lateinit var viewModel: RegisterViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_register, container, false)
+    override fun onInitDataBinding() {
+        viewBinding.lifecycleOwner = viewLifecycleOwner
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-
+    override fun onInitViewModel() {
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RegisterViewModel::class.java)
     }
-
 }
